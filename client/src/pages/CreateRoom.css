@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter', sans-serif;
+}
+
+html,body,#root{
+height:100%;
+width:100%;
+overflow:hidden;
+}
+
+/* PAGE BACKGROUND */
+
+.create-room-page{
+height:100vh;
+width:100%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background: radial-gradient(circle at center,#5a2a1f,#2a0f0b);
+
+color:white;
+position:relative;
+}
+
+/* MAIN CARD */
+
+.create-room-card{
+
+width:640px;
+padding:50px;
+
+border-radius:26px;
+
+background:rgba(255,255,255,0.06);
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,0.08);
+
+box-shadow:
+0 40px 80px rgba(0,0,0,0.7);
+
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+/* TITLE */
+
+.create-room-card h1{
+font-family:'Poppins', sans-serif;
+font-size:32px;
+font-weight:600;
+}
+
+/* SUBTITLE */
+
+.create-room-card p{
+color:#c7c7c7;
+font-size:15px;
+margin-bottom:10px;
+}
+
+/* LABELS */
+
+.label{
+font-size:14px;
+color:#bdbdbd;
+margin-bottom:6px;
+}
+
+/* INPUT */
+
+.create-room-card input{
+
+width:100%;
+padding:16px;
+
+border-radius:12px;
+border:none;
+
+background:#3a2522;
+color:white;
+
+outline:none;
+font-size:15px;
+}
+
+/* TEXTAREA */
+
+.create-room-card textarea{
+width:100%;
+min-height:140px;
+max-height:240px;
+
+padding:18px;
+
+border-radius:12px;
+border:none;
+
+background:#3a2522;
+color:white;
+
+outline:none;
+font-size:15px;
+
+resize:none;
+overflow-y:auto;
+
+line-height:1.6;
+
+/* FIX LONG WORD BREAKING */
+word-wrap: break-word;
+word-break: break-word;
+white-space: pre-wrap;
+}
+.create-room-card textarea::-webkit-scrollbar{
+width:6px;
+}
+
+.create-room-card textarea::-webkit-scrollbar-track{
+background:transparent;
+}
+
+.create-room-card textarea::-webkit-scrollbar-thumb{
+background:#5a3b35;
+border-radius:10px;
+}
+
+.create-room-card textarea::-webkit-scrollbar-thumb:hover{
+background:#7a4f47;
+}
+
+/* EXPIRY BUTTONS */
+
+.expiry-buttons{
+display:flex;
+gap:12px;
+margin-top:10px;
+}
+
+.expiry-buttons button{
+
+flex:1;
+
+padding:14px;
+
+border-radius:12px;
+border:none;
+
+background:#3a2522;
+color:#dcdcdc;
+
+cursor:pointer;
+font-size:14px;
+
+transition:0.2s;
+}
+
+.expiry-buttons button:hover{
+background:#4a322f;
+}
+
+/* TOGGLE SECTION */
+
+.options{
+display:flex;
+gap:14px;
+margin-top:8px;
+}
+
+.option-card{
+
+flex:1;
+
+background:#3a2522;
+
+border-radius:12px;
+
+padding:14px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+/* CTA BUTTON */
+
+.create-room-btn{
+
+margin-top:10px;
+
+width:100%;
+padding:18px;
+
+border:none;
+border-radius:14px;
+
+background:#53c2b7;
+
+color:#062221;
+
+font-weight:600;
+font-size:16px;
+
+cursor:pointer;
+
+transition:0.25s;
+}
+
+.create-room-btn:hover{
+transform:scale(1.03);
+box-shadow:0 10px 30px rgba(83,194,183,0.45);
+}   
+.expiry-buttons button.active{
+background:#53c2b7;
+color:#062221;
+font-weight:600;
+box-shadow:0 5px 15px rgba(83,194,183,0.4);
+}
