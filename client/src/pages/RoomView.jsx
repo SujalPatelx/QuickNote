@@ -1,15 +1,30 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+// import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./RoomView.css";
-
+import axios from "axios";
+import { useState } from "react";
 function RoomView(){
+const {code}= useParams();
 
-const location = useLocation();
-const room = location.state?.room;
+const [content,setContent] = useState("")
+const [roomCode, setRoomCode] = useState("")
 
-if(!room){
-return <div>Room not found</div>;
-}
+useEffect(() => {
+
+    async function getData() {
+      const res = await axios.get(`http://192.168.31.247:3000/room/${code}`);
+      console.log(res.data.response.content);
+      console.log(res.data.response.code);
+      setContent(res.data.response.content);
+      setRoomCode(res.data.response.code);
+    }
+
+    getData();
+    console.log("room code:", code);
+
+  }, [code]);
+
 
 return(
 
@@ -21,21 +36,21 @@ return(
 
 <div className="room-code">
 <span>ROOM CODE</span>
-<h3>{room.code}</h3>
+<h3>{roomCode}</h3>
 </div>
 
 <div className="expiry">
-⏱ Expires in {room.expiry} mins
+⏱ Expires in 10 mins
 </div>
 
 </div>
 
 <div className="message-box">
 
-<h2>{room.title || "Shared Note"}</h2>
+<h2></h2>
 
 <p className="message-text">
-{room.message}
+{content}
 </p>
 
 </div>
@@ -44,7 +59,7 @@ return(
 
 <button
 className="copy-btn"
-onClick={()=>navigator.clipboard.writeText(room.message)}
+onClick={()=>navigator.clipboard.writeText("copy copyy copyyyy")}
 >
 📋 Copy Message
 </button>
