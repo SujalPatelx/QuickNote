@@ -1,14 +1,26 @@
 import React, { useState } from "react";
 import "./CreateRoom.css";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 function CreateRoom() {
+
 
   const navigate = useNavigate();
 
   const [duration, setDuration] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+
+  const handleSubmit = async(roomCode)=>{
+     
+    const res = await axios.post('http://192.168.31.247:3000/creatRoon',{content:message,code:roomCode})
+    if(res){
+      console.log("response : ",res)
+    }else{
+      console.log("error on createRoom Post method")
+    }
+  }
 
   // generate random room code
   function generateRoomCode() {
@@ -35,8 +47,8 @@ function CreateRoom() {
   }
 
   function createRoom() {
-
     const roomCode = generateRoomCode();
+    handleSubmit(roomCode);
 
     const roomData = {
       code: roomCode,

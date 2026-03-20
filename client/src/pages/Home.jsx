@@ -9,15 +9,8 @@ const Home = () => {
 
   const joinRoom = () => {
 
-    const rooms = JSON.parse(localStorage.getItem("quicknoteRooms")) || [];
-
-    const room = rooms.find((r) => r.code === roomCode.trim());
-
-    if (room) {
-      navigate(`/room/${roomCode}`, { state: { room } });
-    } else {
-      alert("Room not found. Check the code.");
-    }
+    console.log('room code : ',roomCode)
+   navigate(`/room/${roomCode}`)
 
   };
 
