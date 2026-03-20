@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
+import {Paste} from './model/past.js'
 
 const PORT = 3000
 
@@ -14,6 +15,27 @@ app.get('/',(req,res)=>{
     res.send("Hello From Server")
 })
 
+
+
+app.post('/creatRoon',async(req,res)=>{
+    const {content,code} = req.body;
+    console.log("past data : ",req.body)
+    res.send("data comming in server")
+    const paste = new Paste( {
+        content,
+        code
+    })
+    await paste.save();
+})
+
+app.get('/room/:code',async (req,res)=>{
+    const code = req.params.code;
+    console.log("room code : ",code)
+
+    const response = await Paste.findOne({code})
+    console.log("response : ",response)
+    res.send({response})
+})
 
 
 app.listen(PORT,(err)=>{
