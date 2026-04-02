@@ -18,12 +18,13 @@ app.get('/',(req,res)=>{
 
 
 app.post('/creatRoon',async(req,res)=>{
-    const {content,code} = req.body;
+    const {title,content,code} = req.body;
     console.log("past data : ",req.body)
     res.send("data comming in server")
     const paste = new Paste( {
+        title,
         content,
-        code
+        code,
     })
     await paste.save();
 })

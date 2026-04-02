@@ -1,31 +1,13 @@
 import mongoose from "mongoose";
 
 const pasteSchema = new mongoose.Schema({
-  title: {
-    type: String,
-  },
+  title: String,
 
-  content: {
-    type: String, // for text paste
-  },
+  content: String, // optional
 
-  fileUrl: {
-    type: String, // Cloudinary URL
-  },
-
-  fileName: {
-    type: String,
-  },
-
-  fileSize: {
-    type: Number,
-  },
-
-  type: {
-    type: String,
-    enum: ["text", "file"],
-    required: true,
-  },
+  fileUrl: String, // optional
+  fileName: String,
+  fileSize: Number,
 
   code: {
     type: String,
@@ -33,11 +15,11 @@ const pasteSchema = new mongoose.Schema({
     unique: true,
   },
 
-  expireAt: {
-    type: Date,
-    expires: 0, // auto delete after expiry
-  }
+  // expireAt: {
+  //   type: Date,
+  //   expires: 0,
+  // }
 
 }, { timestamps: true });
 
-export const Paste = mongoose.model("Paste", pasteSchema);
+export const Paste = mongoose.model("Pastes", pasteSchema);
