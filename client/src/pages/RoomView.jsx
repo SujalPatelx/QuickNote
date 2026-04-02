@@ -13,9 +13,7 @@ const [roomCode, setRoomCode] = useState("")
 useEffect(() => {
 
     async function getData() {
-      const res = await axios.get(`http://192.168.31.247:3000/room/${code}`);
-      console.log(res.data.response.content);
-      console.log(res.data.response.code);
+      const res = await axios.get(`http://localhost:3000/room/${code}`);
       setContent(res.data.response.content);
       setRoomCode(res.data.response.code);
     }

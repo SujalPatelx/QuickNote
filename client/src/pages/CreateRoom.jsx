@@ -1,30 +1,29 @@
 import React, { useState } from "react";
 import "./CreateRoom.css";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
 function CreateRoom() {
-
-
   const navigate = useNavigate();
 
   const [duration, setDuration] = useState("");
+  const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async(roomCode)=>{
-     
-    const res = await axios.post('http://192.168.31.247:3000/creatRoon',{content:message,code:roomCode})
-    if(res){
-      console.log("response : ",res)
-    }else{
-      console.log("error on createRoom Post method")
-    }
-  }
+  const handleSubmit = async (roomData) => {
+    const res = await axios
+      .post("http://localhost:3000/creatRoon",roomData)
+      .then((res) => {
+        console.log("room creating successfully : ", res);
+      })
+      .catch((err) => {
+        console.log("erro while creating room : ", err);
+      });
+  };
 
   // generate random room code
   function generateRoomCode() {
-
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     let part1 = "";
@@ -48,31 +47,29 @@ function CreateRoom() {
 
   function createRoom() {
     const roomCode = generateRoomCode();
-    handleSubmit(roomCode);
 
     const roomData = {
       code: roomCode,
       title: title,
-      message: message,
-      expiry: duration,
-      createdAt: Date.now()
+      content: message,
+      expiryAt: duration,
     };
+    handleSubmit(roomData);
 
     // later this will go to backend
     console.log("Room data ready for DB:", roomData);
 
     // navigate to success page
     navigate("/room-created", { state: { roomCode, roomData } });
-
   }
 
   return (
     <div className="create-room-page">
-
       <div className="create-room-card">
-
         <h1>Create a QuickNote Room</h1>
-        <p>Securely share encrypted notes with a temporary self-destructing link.</p>
+        <p>
+          Securely share encrypted notes with a temporary self-destructing link.
+        </p>
 
         <label className="label">Room Title (Optional)</label>
         <input
@@ -93,10 +90,20 @@ function CreateRoom() {
           }}
         />
 
+        <input
+          type="file"
+          name="file"
+          id="file"
+          placeholder="Upload file"
+          onChange={(e) => {
+            console.log(e.target.files[0]);
+            setFile(e.target.files[0])
+          }}
+        />
+
         <label className="label">Room Expiry</label>
 
         <div className="expiry-buttons">
-
           <button
             className={duration === "10" ? "active" : ""}
             onClick={() => setDuration("10")}
@@ -117,18 +124,12 @@ function CreateRoom() {
           >
             24 Hours
           </button>
-
         </div>
 
-        <button
-          className="create-room-btn"
-          onClick={createRoom}
-        >
+        <button className="create-room-btn" onClick={createRoom}>
           ⚡ Create Secure Room
         </button>
-
       </div>
-
     </div>
   );
 }
