@@ -9,19 +9,49 @@ const {code}= useParams();
 
 const [content,setContent] = useState("")
 const [roomCode, setRoomCode] = useState("")
+const [fileUrl, setFileUrl] = useState("")
+
+const attachmentUrl = fileUrl.includes("/upload/")
+  ? fileUrl.replace("/upload/", "/upload/fl_attachment/")
+  : fileUrl;
 
 useEffect(() => {
 
     async function getData() {
       const res = await axios.get(`http://localhost:3000/room/${code}`);
-      setContent(res.data.response.content);
-      setRoomCode(res.data.response.code);
+      const room = res.data?.response;
+      if (!room) return;
+      setContent(room.content ?? "");
+      setRoomCode(room.code ?? "");
+      setFileUrl(room.fileUrl ?? "");
     }
 
     getData();
     console.log("room code:", code);
 
   }, [code]);
+
+  const handledownload = () => {
+    if (!fileUrl) {
+      alert("No file available for this room.");
+      return;
+    }
+
+    const url = fileUrl.includes("/upload/")
+      ? fileUrl.replace("/upload/", "/upload/fl_attachment/")
+      : fileUrl;
+
+    console.log("download url:", url);
+
+    // Trigger download via anchor click (more reliable than window.open).
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
 
 
 return(
@@ -51,6 +81,27 @@ return(
 {content}
 </p>
 
+</div>
+
+<div>
+  <button onClick={handledownload} disabled={!fileUrl}>
+    Download File
+  </button>
+
+  {fileUrl ? (
+    <div style={{ marginTop: 8 }}>
+      <div>
+        <a href={fileUrl} target="_blank" rel="noreferrer">
+          Open File (raw)
+        </a>
+      </div>
+      <div>
+        <a href={attachmentUrl} target="_blank" rel="noreferrer">
+          Open File (attachment)
+        </a>
+      </div>
+    </div>
+  ) : null}
 </div>
 
 <div className="room-actions">

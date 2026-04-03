@@ -11,15 +11,18 @@ function CreateRoom() {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (roomData) => {
-    const res = await axios
-      .post("http://localhost:3000/creatRoon",roomData)
-      .then((res) => {
-        console.log("room creating successfully : ", res);
-      })
-      .catch((err) => {
-        console.log("erro while creating room : ", err);
-      });
+  const handleSubmit = async ({ code, title, content, file: fileToSend }) => {
+    const formData = new FormData();
+    formData.append("code", code);
+    formData.append("title", title ?? "");
+    formData.append("content", content ?? "");
+    if (fileToSend) {
+      formData.append("file", fileToSend);
+    }
+
+    const res = await axios.post("http://localhost:3000/creatRoon", formData);
+    console.log("room creating successfully : ", res.data);
+    return res.data;
   };
 
   // generate random room code
@@ -45,22 +48,27 @@ function CreateRoom() {
     return `${part1}-${part2}-${part3}`;
   }
 
-  function createRoom() {
+  async function createRoom() {
     const roomCode = generateRoomCode();
+
+    console.log("File in client : ", file);
 
     const roomData = {
       code: roomCode,
       title: title,
       content: message,
-      expiryAt: duration,
+      file,
     };
-    handleSubmit(roomData);
+    console.log("final data in client : ", roomData);
+    const createdRoom = await handleSubmit(roomData);
 
     // later this will go to backend
     console.log("Room data ready for DB:", roomData);
 
     // navigate to success page
-    navigate("/room-created", { state: { roomCode, roomData } });
+    navigate("/room-created", {
+      state: { roomCode, roomData: createdRoom?.data ?? roomData },
+    });
   }
 
   return (
